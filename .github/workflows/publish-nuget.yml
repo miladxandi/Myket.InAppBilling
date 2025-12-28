@@ -1,0 +1,54 @@
+name: Publish to NuGet
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Package version (leave empty to use csproj version)'
+        required: false
+
+env:
+  DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
+  DOTNET_CLI_TELEMETRY_OPTOUT: true
+
+jobs:
+  publish:
+    runs-on: windows-latest
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Install MAUI Workloads
+        run: dotnet workload install maui-android
+
+      - name: Restore dependencies
+        run: dotnet restore Myket.InAppBilling/Myket.InAppBilling.csproj
+
+      - name: Build
+        run: dotnet build Myket.InAppBilling/Myket.InAppBilling.csproj -c Release --no-restore
+
+      - name: Pack (with version from release)
+        if: github.event_name == 'release'
+        run: |
+          $version = "${{ github.event.release.tag_name }}".TrimStart('v')
+          dotnet pack Myket.InAppBilling/Myket.InAppBilling.csproj -c Release --no-build -o ./artifacts -p:PackageVersion=$version
+
+      - name: Pack (with manual version)
+        if: github.event_name == 'workflow_dispatch' && github.event.inputs.version != ''
+        run: dotnet pack Myket.InAppBilling/Myket.InAppBilling.csproj -c Release --no-build -o ./artifacts -p:PackageVersion=${{ github.event.inputs.version }}
+
+      - name: Pack (with csproj version)
+        if: github.event_name == 'workflow_dispatch' && github.event.inputs.version == ''
+        run: dotnet pack Myket.InAppBilling/Myket.InAppBilling.csproj -c Release --no-build -o ./artifacts
+
+      - name: Push to NuGet
+        run: dotnet nuget push ./artifacts/*.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate
+
