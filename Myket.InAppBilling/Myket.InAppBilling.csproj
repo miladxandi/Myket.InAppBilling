@@ -12,7 +12,34 @@
         <Version>0.0.2</Version>
         <Authors>Milad Xandi</Authors>
         <Description>Myket In-App Billing Library for .NET MAUI</Description>
+        <PackageReadmeFile>ReadMe.md</PackageReadmeFile>
+        <RepositoryUrl>https://github.com/miladxandi/Myket.InAppBilling</RepositoryUrl>
+        <PackageTags>maui;myket;myket iab;myket iap;myket android;iran;persian</PackageTags>
+        <NeutralLanguage>fa-IR</NeutralLanguage>
+        <PackageLicenseFile>LICENSE</PackageLicenseFile>
+        <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
+        <PackageReleaseNotes>Android 26+ support problems has been fixed</PackageReleaseNotes>
+        <PackageIcon>icon.png</PackageIcon>
+        <PackageProjectUrl>https://github.com/miladxandi/Myket.InAppBilling</PackageProjectUrl>
+        <Copyright>Milad Xandi</Copyright>
+        <Title>Myket In-App Bulling</Title>
+        <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     </PropertyGroup>
+
+    <ItemGroup>
+      <None Include="..\icon.png">
+        <Pack>True</Pack>
+        <PackagePath>\</PackagePath>
+      </None>
+      <None Include="..\LICENSE">
+        <Pack>True</Pack>
+        <PackagePath>\</PackagePath>
+      </None>
+      <None Include="..\ReadMe.md">
+        <Pack>True</Pack>
+        <PackagePath>\</PackagePath>
+      </None>
+    </ItemGroup>
 
     <ItemGroup>
       <PackageReference Include="Microsoft.Maui.Essentials" Version="8.0.100" />
