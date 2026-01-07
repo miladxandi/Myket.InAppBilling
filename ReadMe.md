@@ -9,8 +9,8 @@
 - ✅ خرید محصول (Purchase)
 - ✅ مصرف محصول (Consume) برای محصولات مصرفی (سکه، جم و...)
 - ✅ بدون نیاز به فایل‌های Java یا AIDL خارجی
-- ✅ کاملاً منطبق با .NET 8 و MAUI
-
+- ✅ کاملاً منطبق با .NET 8+ و MAUI
+- ✅ منطبق با اندروید نسخه 26+
 ## نصب
 
 پکیج را از طریق NuGet به پروژه خود اضافه کنید:
@@ -74,7 +74,7 @@ namespace YourAppName
 ```csharp
 using Myket.InAppBilling;
 
-private async void OnBuyClicked(object sender, EventArgs e)
+private async void PayWithMyket()
 {
     // شناسه محصول تعریف شده در پنل توسعه‌دهندگان مایکت
     string productId = "coin_pack_100";

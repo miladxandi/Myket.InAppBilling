@@ -28,7 +28,7 @@ namespace Myket.InAppBilling.Platforms.Android
             var intent = new Intent("ir.mservices.market.InAppBillingService.BIND");
             intent.SetPackage("ir.mservices.market");
 
-            var context = Microsoft.Maui.ApplicationModel.Platform.CurrentActivity ?? Application.Context;
+            var context = Platform.CurrentActivity ?? Application.Context;
             
             try
             {
@@ -73,10 +73,37 @@ namespace Myket.InAppBilling.Platforms.Android
                 {
                     _purchaseTcs = new TaskCompletionSource<PurchaseResult>();
                     var pendingIntent = bundle.GetParcelable("BUY_INTENT") as PendingIntent;
-                    
-                    // شروع اکتیویتی
-                    context.StartIntentSenderForResult(pendingIntent.IntentSender, REQUEST_CODE, new Intent(), 0, 0, 0);
-                    
+                    // Prepare the fillInIntent with proper flags for Android < 15
+                    var fillInIntent = new Intent();
+        
+                    // Determine flags based on Android version
+                    ActivityFlags flags = 0;
+                    if (Build.VERSION.SdkInt < BuildVersionCodes.R)
+                    {
+                        flags = (ActivityFlags)PendingIntentFlags.UpdateCurrent;
+                    }
+                    else if (Build.VERSION.SdkInt >= BuildVersionCodes.S)
+                    {
+                        flags = (ActivityFlags)(PendingIntentFlags.UpdateCurrent | PendingIntentFlags.Mutable);
+                    }
+                    if (Build.VERSION.SdkInt >= BuildVersionCodes.R)
+                    {
+                        context.StartIntentSenderForResult(
+                            pendingIntent?.IntentSender, 
+                            REQUEST_CODE, 
+                            fillInIntent,
+                            flags, 
+                            0, 
+                            0
+                        );
+                    }
+                    else
+                    {
+
+                        context.StartIntentSenderForResult(pendingIntent?.IntentSender, REQUEST_CODE, new Intent(), 0, 0,
+                            0);
+                    }
+
                     return await _purchaseTcs.Task;
                 }
             }
@@ -94,7 +121,7 @@ namespace Myket.InAppBilling.Platforms.Android
              {
                  if (_serviceConnection == null || !_serviceConnection.IsConnected) return false;
                  
-                 var context = Microsoft.Maui.ApplicationModel.Platform.CurrentActivity ?? Application.Context;
+                 var context = Platform.CurrentActivity ?? Application.Context;
                  int result = _serviceConnection.Service.ConsumePurchase(3, context.PackageName, purchaseToken);
                  return result == 0;
              });
