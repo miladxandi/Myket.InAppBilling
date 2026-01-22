@@ -53,6 +53,67 @@ namespace Myket.InAppBilling.Platforms.Android
             }
         }
 
+        // public async Task<PurchaseResult> PurchaseAsync(string productId, string payload = "")
+        // {
+        //     if (_serviceConnection == null || !_serviceConnection.IsConnected)
+        //     {
+        //         bool connected = await ConnectAsync();
+        //         if (!connected) return new PurchaseResult { Status = PurchaseStatus.Failed, Message = "Could not connect to Myket." };
+        //     }
+        //
+        //     var context = Microsoft.Maui.ApplicationModel.Platform.CurrentActivity;
+        //     if (context == null) return new PurchaseResult { Status = PurchaseStatus.Failed, Message = "Activity is null." };
+        //
+        //     try
+        //     {
+        //         var bundle = _serviceConnection.Service.GetBuyIntent(3, context.PackageName, productId, "inapp", payload);
+        //         int response = bundle.GetInt("RESPONSE_CODE");
+        //
+        //         if (response == 0)
+        //         {
+        //             _purchaseTcs = new TaskCompletionSource<PurchaseResult>();
+        //             var pendingIntent = bundle.GetParcelable("BUY_INTENT") as PendingIntent;
+        //             // Prepare the fillInIntent with proper flags for Android < 15
+        //             var fillInIntent = new Intent();
+        //
+        //             // Determine flags based on Android version
+        //             ActivityFlags flags = 0;
+        //             if (Build.VERSION.SdkInt < BuildVersionCodes.R)
+        //             {
+        //                 flags = (ActivityFlags)PendingIntentFlags.UpdateCurrent;
+        //             }
+        //             else if (Build.VERSION.SdkInt >= BuildVersionCodes.S)
+        //             {
+        //                 flags = (ActivityFlags)(PendingIntentFlags.UpdateCurrent | PendingIntentFlags.Mutable);
+        //             }
+        //             if (Build.VERSION.SdkInt >= BuildVersionCodes.R)
+        //             {
+        //                 context.StartIntentSenderForResult(
+        //                     pendingIntent?.IntentSender, 
+        //                     REQUEST_CODE, 
+        //                     fillInIntent,
+        //                     flags, 
+        //                     0, 
+        //                     0
+        //                 );
+        //             }
+        //             else
+        //             {
+        //
+        //                 context.StartIntentSenderForResult(pendingIntent?.IntentSender, REQUEST_CODE, new Intent(), 0, 0,
+        //                     0);
+        //             }
+        //
+        //             return await _purchaseTcs.Task;
+        //         }
+        //     }
+        //     catch (System.Exception ex)
+        //     {
+        //         return new PurchaseResult { Status = PurchaseStatus.Failed, Message = ex.Message };
+        //     }
+        //
+        //     return new PurchaseResult { Status = PurchaseStatus.Failed, Message = "Unknown error" };
+        // }
         public async Task<PurchaseResult> PurchaseAsync(string productId, string payload = "")
         {
             if (_serviceConnection == null || !_serviceConnection.IsConnected)

@@ -9,7 +9,7 @@
 
         <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">26.0</SupportedOSPlatformVersion>
         <PackageId>Myket.InAppBilling</PackageId>
-        <Version>0.0.2</Version>
+        <Version>0.0.4</Version>
         <Authors>Milad Xandi</Authors>
         <Description>Myket In-App Billing Library for .NET MAUI</Description>
         <PackageReadmeFile>ReadMe.md</PackageReadmeFile>
@@ -18,12 +18,13 @@
         <NeutralLanguage>fa-IR</NeutralLanguage>
         <PackageLicenseFile>LICENSE</PackageLicenseFile>
         <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
-        <PackageReleaseNotes>Android 26+ support problems has been fixed</PackageReleaseNotes>
+        <PackageReleaseNotes>Android 34 and 35 payment problems has been fixed</PackageReleaseNotes>
         <PackageIcon>icon.png</PackageIcon>
         <PackageProjectUrl>https://github.com/miladxandi/Myket.InAppBilling</PackageProjectUrl>
         <Copyright>Milad Xandi</Copyright>
         <Title>Myket In-App Bulling</Title>
         <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+        <UserSecretsId>e1ae12dc-9fb3-41e6-b2eb-3b9666b26508</UserSecretsId>
     </PropertyGroup>
 
     <ItemGroup>
@@ -43,6 +44,7 @@
 
     <ItemGroup>
       <PackageReference Include="Microsoft.Maui.Essentials" Version="8.0.100" />
+      <PackageReference Include="Microsoft.Maui.Controls" Version="8.0.100" />
     </ItemGroup>
 
 </Project>
